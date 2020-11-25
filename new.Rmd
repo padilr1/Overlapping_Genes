@@ -3,4 +3,40 @@ title: "New"
 output: html_document
 ---
 
-yoooo
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tximport)
+library(DESeq2)
+library(GenomicFeatures)
+library(rtracklayer)
+library(genefilter)
+library(ggplot2)
+library(grDevices)
+library(RColorBrewer)
+library(gplots)
+library(ggrepel)
+library(dplyr)
+library(pheatmap)
+
+```
+
+```{r echo=FALSE}
+
+setwd("~/testGitHub/Testing")
+
+load("dds.RData")
+load("mdat.RData")
+load("vsd.RData")
+load("rld.RData")
+
+sampleDists <- dist(t(assay(vsd)))
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(vsd$cond, vsd$dir, sep="-")
+colnames(sampleDistMatrix) <- NULL
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+pheatmap(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+```
