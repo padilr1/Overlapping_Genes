@@ -1,13 +1,11 @@
-name: "MyLabJournal"
+name: "Overlapping_Genes"
 navbar:
-  title: "MyLabJournal"
+  title: "Overlapping_Genes"
   left:
-    - text: "Home"
+    - text: "Venn Diagram"
       href: index.html
-    - text: "Journal"
-      href: Journal.html
-    - text: "Links"
-      href: Links.html
-    - text: "new"
-      href: new.html
+    - text: "PCA"
+      href: PCA.html
+    - text: "Heatmap"
+      href: heatmap.html
 output_dir: "docs"

@@ -1,43 +1,42 @@
 ---
-title: "MyLabJournal"
-output: html_document
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
 ---
 
-<style type="text/css">
-.title {
-  display: none;
-}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```
 
-#getting-started img {
-  margin-right: 10px;
-}
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(png)
+library(imager)
+```
 
-</style>
+# Overlapping upregulated genes 
 
-<div class="row" style="padding-top: 30px;">
-<div class="col-sm-6">
+2-fold increase & padj < 0.05
 
-# **My Lab Journal**
+```{r echo=FALSE}
+im<-load.image("upregulated_venn_diagramm.png")
+plot(im,axes=FALSE)
 
-This is a template example for lab journaling. Students in Matt Crump's Human Cognition and Performance Lab will use this template to learn R, and other things. Students can replace this text with more fun things. People not in my lab can use this too.
-
-## How to use
-
-1. fork the repo for this website and follow instructions on read me to get set up. [https://github.com/CrumpLab/LabJournalWebsite](https://github.com/CrumpLab/LabJournalWebsite)
-
-2. Blog/journal what you are doing in R, by editing the Journal.Rmd. See the [Journal page](https://crumplab.github.io/LabJournalWebsite/Journal.html) for an example of what to do to get started learning R.
-
-3. See the [links page](https://crumplab.github.io/LabJournalWebsite/Links.html) for lots of helpful links on learning R.
-
-4. Change everything to make it your own.
+```
 
 
-</div>
-<div class="col-sm-6">
+# Overlapping downregulated genes 
 
-### [Crump Lab: Human Cognition and Performance](https://crumplab.github.io)
+2-fold decrease & padj < 0.05
 
-<a href = "https://crumplab.github.io">
-![](images/logo.png)
-</a>
-</div>
+```{r echo=FALSE}
+im<-load.image("downregulated_venn_diagramm.png")
+plot(im,axes=FALSE)
+```
+
