@@ -30,3 +30,7 @@ pheatmap
 png
 magrittr
 imager
+plotly
+viridisLite
+viridis
+heatmaply
