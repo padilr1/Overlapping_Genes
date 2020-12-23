@@ -63,6 +63,7 @@ p <- layout(p,title="PCA Detroit Samples",   xaxis = list(title = "PC 1 (22.44%)
 p
 
 ```
+
 # Heatmap Detroit Samples
 
 ```{r echo=FALSE}

@@ -37,30 +37,4 @@ condition <- mdat$cond
 scores <- data.frame(pc$x, condition)
 percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
 percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
-
-(pcaplot <- ggplot(scores, aes(x = PC1, y = PC2, color = (factor(condition))))
-  + geom_point(size = 3)
-  #+ geom_label_repel(aes(label = samples), show.legend = F) adds label to each data point
-  + xlab(percentage[1]) 
-  + ylab(percentage[2])
-  + ggtitle("                                  ")
-  + scale_colour_brewer(name = " ", palette = "Set1")
-  + theme(
-    plot.title = element_text(face = 'bold'),
-    legend.position = "right",
-    legend.key = element_rect(fill = 'NA'),
-    legend.text = element_text(size = 10, face = "bold"),
-    axis.text.y = element_text(colour = "Black"),
-    axis.text.x = element_text(colour = "Black"),
-    axis.title.x = element_text(face = "bold"),
-    axis.title.y = element_text(face = 'bold'),
-    panel.background = element_rect(color = 'black',fill = NA),
-    axis.line.y = element_line(size = 0.5, color = "black"),
-    axis.line.x = element_line(size = 0.5, color = "black"),
-    axis.text = element_text(color = "black"),
-    panel.grid.minor.x = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    panel.grid.major.y = element_line(color = "grey", linetype = "dashed"),
-    panel.grid.major.x = element_line(color = "grey", linetype = "dashed")
-  ))
 ```
