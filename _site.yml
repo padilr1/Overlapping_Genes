@@ -2,10 +2,8 @@ name: "Overlapping_Genes"
 navbar:
   title: "Overlapping_Genes"
   left:
-    - text: "Venn Diagram"
+    - text: "Detroit Samples"
       href: index.html
-    - text: "PCA"
+    - text: "Cal27 Samples"
       href: PCA.html
-    - text: "Heatmap"
-      href: heatmap.html
 output_dir: "docs"

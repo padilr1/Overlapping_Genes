@@ -18,25 +18,64 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 knitr::opts_chunk$set(echo = TRUE)
 library(png)
 library(imager)
+library(tidyverse)
+library(tximport)
+library(DESeq2)
+library(GenomicFeatures)
+library(rtracklayer)
+library(genefilter)
+library(ggplot2)
+library(grDevices)
+library(RColorBrewer)
+library(gplots)
+library(ggrepel)
+library(dplyr)
+library(pheatmap)
+library(plotly)
+library(heatmaply)
 ```
 
-# Overlapping upregulated genes 
+# PCA Detroit Samples 
 
-2-fold increase & padj < 0.05
+We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against (namely NSD1KO, K36M & K36R). However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below. Hence, for overlapping gene analysis, I will aggregate P16 and pCDH-empty instead as a control to compare samples against. 
+
+Note: pCDH indicates they're derived from over-expression experiments using pCDH lentivectors.
 
 ```{r echo=FALSE}
-im<-load.image("upregulated_venn_diagramm.png")
-plot(im,axes=FALSE)
+setwd("~/testGitHub/Testing")
+
+load("dds.RData")
+load("mdat.RData")
+load("vsd.RData")
+load("rld.RData")
+
+rv <- rowVars(assay(rld))
+select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
+pc <- prcomp(t(assay(vsd)[select,]))
+condition <- mdat$cond
+scores <- data.frame(pc$x, condition)
+percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
+percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
+
+p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
+p <- layout(p,title="PCA Detroit Samples",   xaxis = list(title = "PC 1 (22.44%)"),
+                 yaxis = list(title = "PC 2 (14.09%)"))
+p
 
 ```
-
-
-# Overlapping downregulated genes 
-
-2-fold decrease & padj < 0.05
+# Heatmap Detroit Samples
 
 ```{r echo=FALSE}
-im<-load.image("downregulated_venn_diagramm.png")
-plot(im,axes=FALSE)
+sampleDists <- dist(t(assay(vsd[select])))
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(vsd$cond, vsd$dir, sep="-")
+colnames(sampleDistMatrix) <- paste(vsd$cond, vsd$dir, sep="-")
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+heatmaply(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+
 ```
+
 
