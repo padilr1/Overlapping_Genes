@@ -31,3 +31,6 @@ plotly
 viridisLite
 viridis
 heatmaply
+png
+magrittr
+imager

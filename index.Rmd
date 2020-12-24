@@ -35,7 +35,7 @@ library(plotly)
 library(heatmaply)
 ```
 
-# PCA Detroit Samples 
+# PCA
 
 We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against (namely NSD1KO, K36M & K36R). However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below. 
 
@@ -58,13 +58,13 @@ percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
 percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
 
 p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
-p <- layout(p,title="PCA Detroit Samples",   xaxis = list(title = "PC 1 (22.44%)"),
+p <- layout(p,title="",   xaxis = list(title = "PC 1 (22.44%)"),
                  yaxis = list(title = "PC 2 (14.09%)"))
 p
 
 ```
 
-# Heatmap Detroit Samples
+# Heatmap
 
 ```{r echo=FALSE}
 sampleDists <- dist(t(assay(vsd[select])))

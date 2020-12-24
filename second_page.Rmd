@@ -32,7 +32,7 @@ library(plotly)
 library(heatmaply)
 ```
 
-# PCA Cal27 Samples
+# PCA
 
 ```{r echo=FALSE}
 
@@ -52,13 +52,13 @@ percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
 percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
 
 p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
-p <- layout(p,title="PCA Detroit Samples",   xaxis = list(title = "PC 1 (33%)"),
+p <- layout(p,title="", xaxis = list(title = "PC 1 (33%)"),
                  yaxis = list(title = "PC 2 (19.21%)"))
 p
 ```
 It seems P8, K36M and K36R cluster together. Hence, it seems appropriate to use them together as a control. The NSD1/2KO samples are not behaving as expected. Specifically, one NSD1KO is more similar to one of the NSD1/2KO samples (see heatmap below).
 
-# Heatmap Cal27 Samples
+# Heatmap
 
 ```{r echo=FALSE}
 sampleDists <- dist(t(assay(vsd[select])))
