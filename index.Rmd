@@ -37,7 +37,7 @@ library(heatmaply)
 
 # PCA Detroit Samples 
 
-We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against (namely NSD1KO, K36M & K36R). However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below. Hence, for overlapping gene analysis, I will aggregate P16 and pCDH-empty instead as a control to compare samples against. 
+We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against (namely NSD1KO, K36M & K36R). However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below. 
 
 Note: pCDH indicates they're derived from over-expression experiments using pCDH lentivectors.
 

@@ -5,5 +5,5 @@ navbar:
     - text: "Detroit Samples"
       href: index.html
     - text: "Cal27 Samples"
-      href: PCA.html
+      href: second_page.html
 output_dir: "docs"

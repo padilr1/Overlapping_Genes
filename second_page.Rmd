@@ -1,0 +1,75 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tximport)
+library(DESeq2)
+library(GenomicFeatures)
+library(rtracklayer)
+library(genefilter)
+library(ggplot2)
+library(grDevices)
+library(RColorBrewer)
+library(gplots)
+library(ggrepel)
+library(dplyr)
+library(pheatmap)
+library(plotly)
+library(heatmaply)
+```
+
+# PCA Cal27 Samples
+
+```{r echo=FALSE}
+
+setwd("~/testGitHub/Testing")
+
+load("cal27_dds.RData")
+load("cal27_mdat.RData")
+load("cal27_vsd.RData")
+load("cal27_rld.RData")
+
+rv <- rowVars(assay(rld))
+select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
+pc <- prcomp(t(assay(vsd)[select,]))
+condition <- mdat$cond
+scores <- data.frame(pc$x, condition)
+percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
+percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
+
+p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
+p <- layout(p,title="PCA Detroit Samples",   xaxis = list(title = "PC 1 (33%)"),
+                 yaxis = list(title = "PC 2 (19.21%)"))
+p
+```
+It seems P8, K36M and K36R cluster together. Hence, it seems appropriate to use them together as a control. The NSD1/2KO samples are not behaving as expected. Specifically, one NSD1KO is more similar to one of the NSD1/2KO samples (see heatmap below).
+
+# Heatmap Cal27 Samples
+
+```{r echo=FALSE}
+sampleDists <- dist(t(assay(vsd[select])))
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(vsd$cond, vsd$dir, sep="-")
+colnames(sampleDistMatrix) <- paste(vsd$cond, vsd$dir, sep="-")
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+heatmaply(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+
+```
+
