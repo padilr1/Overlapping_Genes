@@ -9,7 +9,6 @@ output:
     toc_depth: 1
     #code_folding: hide
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
@@ -63,7 +62,6 @@ size_factors
 </details>
 
 ## vst
-
 ```{r echo=FALSE}
 rv <- rowVars(assay(vsd))
 select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
@@ -81,7 +79,6 @@ p
 ```
 
 ## rlog
-
 ```{r echo=FALSE}
 rv <- rowVars(assay(rld))
 select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
@@ -98,12 +95,9 @@ p
 
 ```
 
-# {-}
-
 # Heatmap {.tabset}
 
 ## vst
-
 ```{r echo=FALSE}
 sampleDists <- dist(t(assay(vsd[select])))
 sampleDistMatrix <- as.matrix(sampleDists)
@@ -118,7 +112,6 @@ heatmaply(sampleDistMatrix,
 ```
 
 ## rlog
-
 ```{r echo=FALSE}
 sampleDists <- dist(t(assay(rld[select])))
 sampleDistMatrix <- as.matrix(sampleDists)
@@ -132,4 +125,18 @@ heatmaply(sampleDistMatrix,
 
 ```
 
-# {-}
+# Overlapping Genes
+
+Criteria for DGE: 2-fold change in gene expression compared to control and p.adj < 0.05
+
+<table>
+  <tr>
+    <td align="middle">**Upregulated Genes**</td>
+     <td align="middle">**Downregulated Genes**</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/upregulated_venn_diagramm.png"></td>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/downregulated_venn_diagramm_Detroit.png"></td>
+  </tr>
+ </table>
+

@@ -30,11 +30,7 @@ library(dplyr)
 library(pheatmap)
 library(plotly)
 library(heatmaply)
-```
-
-# PCA
-
-```{r echo=FALSE}
+library(tidyverse)
 
 setwd("~/testGitHub/Testing")
 
@@ -42,8 +38,15 @@ load("cal27_dds.RData")
 load("cal27_mdat.RData")
 load("cal27_vsd.RData")
 load("cal27_rld.RData")
+```
 
-rv <- rowVars(assay(rld))
+# PCA {.tabset}
+
+It seems P8, K36M and K36R cluster together. Hence, it seems appropriate to use them together as a control. The NSD1/2KO samples are not behaving as expected. Specifically, one NSD1KO is more similar to one of the NSD1/2KO samples (see heatmap below).
+
+## vst
+```{r echo=FALSE}
+rv <- rowVars(assay(vsd))
 select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
 pc <- prcomp(t(assay(vsd)[select,]))
 condition <- mdat$cond
@@ -52,14 +55,30 @@ percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
 percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
 
 p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
-p <- layout(p,title="", xaxis = list(title = "PC 1 (33%)"),
-                 yaxis = list(title = "PC 2 (19.21%)"))
+p <- layout(p,title="", xaxis = list(title = percentage[1]),
+                 yaxis = list(title = percentage[2]))
 p
 ```
-It seems P8, K36M and K36R cluster together. Hence, it seems appropriate to use them together as a control. The NSD1/2KO samples are not behaving as expected. Specifically, one NSD1KO is more similar to one of the NSD1/2KO samples (see heatmap below).
 
-# Heatmap
+## rlog
+```{r echo=FALSE}
+rv <- rowVars(assay(rld))
+select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
+pc <- prcomp(t(assay(rld)[select,]))
+condition <- mdat$cond
+scores <- data.frame(pc$x, condition)
+percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
+percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
 
+p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
+p <- layout(p,title="", xaxis = list(title = percentage[1]),
+                 yaxis = list(title = percentage[2]))
+p
+```
+
+# Heatmap {.tabset}
+
+## vst
 ```{r echo=FALSE}
 sampleDists <- dist(t(assay(vsd[select])))
 sampleDistMatrix <- as.matrix(sampleDists)
@@ -72,4 +91,33 @@ heatmaply(sampleDistMatrix,
          col=colors)
 
 ```
+
+## rlog
+```{r echo=FALSE}
+sampleDists <- dist(t(assay(rld[select])))
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(rld$cond, rld$dir, sep="-")
+colnames(sampleDistMatrix) <- paste(rld$cond, rld$dir, sep="-")
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+heatmaply(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+
+```
+
+# Overlapping Genes
+
+Criteria for DGE: 2-fold change in gene expression compared to control and p.adj < 0.05
+
+<table>
+  <tr>
+    <td align="middle">**Upregulated Genes**</td>
+     <td align="middle">**Downregulated Genes**</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/upregulated_venn_diagramm_cal27.png"></td>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/downregulated_venn_diagramm_cal27.png"></td>
+  </tr>
+ </table>
 
