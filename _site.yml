@@ -6,4 +6,6 @@ navbar:
       href: index.html
     - text: "Cal27 Samples"
       href: second_page.html
+    - text: "KDM4D Samples"
+      href: third_page.html
 output_dir: "docs"

@@ -1,0 +1,89 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tximport)
+library(DESeq2)
+library(GenomicFeatures)
+library(rtracklayer)
+library(genefilter)
+library(ggplot2)
+library(grDevices)
+library(RColorBrewer)
+library(gplots)
+library(ggrepel)
+library(dplyr)
+library(pheatmap)
+library(plotly)
+library(heatmaply)
+library(tidyverse)
+
+setwd("~/testGitHub/Testing")
+load("KDM4D_dds.RData")
+load("KDM4D_rld.RData")
+metaData <- read.csv("metadata.csv", row.names = 1)
+
+```
+
+# PCA {.tabset}
+
+## Original
+```{r echo=FALSE}
+rv <- rowVars(assay(rld))
+select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
+pc <- prcomp(t(assay(rld)[select,]))
+condition <- metaData$condition
+scores <- data.frame(pc$x, condition)
+percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
+percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
+
+p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
+p <- layout(p,title="", xaxis = list(title = percentage[1]),
+            yaxis = list(title = percentage[2]))
+p
+```
+
+## Batch Effect Shown
+```{r echo=FALSE}
+rv <- rowVars(assay(rld))
+select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
+pc <- prcomp(t(assay(rld)[select,]))
+batch <- metaData$batch
+scores <- data.frame(pc$x, batch)
+percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
+percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
+
+p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(batch),marker=list(size=11))
+p <- layout(p,title="", xaxis = list(title = percentage[1]),
+                 yaxis = list(title = percentage[2]))
+p
+```
+
+# Heatmap
+
+```{r echo=FALSE}
+sampleDists <- dist(t(assay(rld[select])))
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(rld$condition, rld$batch, sep="-")
+colnames(sampleDistMatrix) <- paste(rld$condition, rld$batch, sep="-")
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+heatmaply(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+
+```
