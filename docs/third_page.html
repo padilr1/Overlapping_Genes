@@ -374,6 +374,9 @@ div.tocify {
 <li>
   <a href="third_page.html">KDM4D Samples</a>
 </li>
+<li>
+  <a href="fourth_page.html">DAVID Pathway Analyses</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -392,6 +395,7 @@ div.tocify {
 
 <div id="pca" class="section level1 tabset">
 <h1>PCA</h1>
+<p>Batch effects are evident between Day0 and Day5 due to differentiation. I would like to compare the treated samples against the control within their respective batches. However, DESEQ cannot run this type of analysis without biological replicates. Our pipeline combined(collapsed) the biological replicates together to form one sample. I will have to re-run using our pipeline and specify the biological replicates for each treatment within the batches prior to moving onto overlapping DGE analyses.</p>
 <div id="original" class="section level2">
 <h2>Original</h2>
 <div id="htmlwidget-e28bd05585867b3d2bde" style="width:672px;height:480px;" class="plotly html-widget"></div>

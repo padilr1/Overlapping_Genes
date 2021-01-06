@@ -374,6 +374,9 @@ div.tocify {
 <li>
   <a href="third_page.html">KDM4D Samples</a>
 </li>
+<li>
+  <a href="fourth_page.html">DAVID Pathway Analyses</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -392,8 +395,8 @@ div.tocify {
 
 <div id="pca" class="section level1 tabset">
 <h1>PCA</h1>
-<p>We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against (namely NSD1KO, K36M &amp; K36R). However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below.</p>
-<p>We also see slight differences in the PCAs and heatmaps between (varianceStabilizingTransformation()) and (rlogTransformation()).</p>
+<p>We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against. However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below. We see slight differences in the PCAs and heatmaps between (varianceStabilizingTransformation()) and (rlogTransformation()).</p>
+<p>Looking at the rlog PCA and heatmap, it seems appropriate to use P16 and pCDH-empty as a control and remove K36WT.</p>
 <p>Note: pCDH indicates they’re derived from over-expression experiments using pCDH lentivectors.</p>
 <details>
 <summary>Size Factors</summary>
@@ -441,6 +444,7 @@ div.tocify {
 </div>
 <div id="overlapping-genes" class="section level1">
 <h1>Overlapping Genes</h1>
+<p>It doesn’t really make sense to do pathway analysis on the overlapping genes for the Detroit samples because there are so few genes. However, I did investigate the partial overlap with most DGE genes - between K36M and NSD1KO (111 upregulated genes). <em>Please see the fourth page (DAVID analyses) for the results.</em></p>
 <p>Criteria for DGE: 2-fold change in gene expression compared to control and p.adj &lt; 0.05</p>
 <table>
 <tr>

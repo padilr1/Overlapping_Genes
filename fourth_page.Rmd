@@ -1,0 +1,70 @@
+---
+title: ""
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
+    #code_folding: hide
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+```
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(rtracklayer)
+library(grDevices)
+library(tidyverse)
+```
+
+# Overlapping Upregulated Genes {.tabset}
+
+**Criteria: two-fold increase & p.adj<0.05 compared to control**
+
+*Screenshots from DAVID pathway analyses are found in the tabs.*
+
+## Cal27
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/Cal27_Samples_Upregulated.png"></td>
+
+## Detroit
+
+**Overlapping genes between NSD1KO and K36M.**
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/Detroit_samples_upregulated_overlap_NSD1KO_K36M.png"></td>
+
+## C3H10T1
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/upregulated_C3H10T1.png"></td>
+
+## Decitabine untreated
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/upregulated_decitabine_untreated.png"></td>
+
+## Decitabine treated
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/upregulated_decitabine_treated.png"></td>
+
+# Overlapping Downregulated Genes {.tabset}
+
+**Criteria: two-fold decrease & p.adj<0.05 compared to control**
+
+## Cal27
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/Cal27_Samples_Downregulated.png"></td>
+
+## C3H10T1
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/downregulated_C3H10T1.png"></td>
+
+## Decitabine untreated
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/downregulated_decitabine_untreated.png"></td>
+
+## Decitabine treated
+
+<td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/downregulated_decitabine_treated.png"></td>
+

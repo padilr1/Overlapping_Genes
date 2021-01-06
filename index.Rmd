@@ -37,9 +37,9 @@ library(tidyverse)
 
 # PCA {.tabset}
 
-We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against (namely NSD1KO, K36M & K36R). However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below. 
+We discussed aggregating the samples P16, pCDH-empty and K36WT as a potential control to compare treated samples against. However, it seems that the K36WT is more similar to K36R than P16 or pCDH-empty. The relationships are recapitulated in the heatmap below. We see slight differences in the PCAs and heatmaps between (varianceStabilizingTransformation()) and (rlogTransformation()).
 
-We also see slight differences in the PCAs and heatmaps between (varianceStabilizingTransformation()) and (rlogTransformation()).
+Looking at the rlog PCA and heatmap, it seems appropriate to use P16 and pCDH-empty as a control and remove K36WT. 
 
 Note: pCDH indicates they're derived from over-expression experiments using pCDH lentivectors.
 
@@ -126,6 +126,8 @@ heatmaply(sampleDistMatrix,
 ```
 
 # Overlapping Genes
+
+It doesn't really make sense to do pathway analysis on the overlapping genes for the Detroit samples because there are so few genes. However, I did investigate the partial overlap with most DGE genes - between K36M and NSD1KO (111 upregulated genes). *Please see the fourth page (DAVID analyses) for the results.*
 
 Criteria for DGE: 2-fold change in gene expression compared to control and p.adj < 0.05
 

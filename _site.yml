@@ -8,4 +8,6 @@ navbar:
       href: second_page.html
     - text: "KDM4D Samples"
       href: third_page.html
+    - text: "DAVID Pathway Analyses"
+      href: fourth_page.html
 output_dir: "docs"

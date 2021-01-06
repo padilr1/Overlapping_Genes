@@ -42,7 +42,7 @@ load("cal27_rld.RData")
 
 # PCA {.tabset}
 
-It seems P8, K36M and K36R cluster together. Hence, it seems appropriate to use them together as a control. The NSD1/2KO samples are not behaving as expected. Specifically, one NSD1KO is more similar to one of the NSD1/2KO samples (see heatmap below).
+It seems P8, K36M and K36R cluster together. Hence, it seems appropriate to use them together as a control. 
 
 ## vst
 ```{r echo=FALSE}

@@ -41,6 +41,8 @@ metaData <- read.csv("metadata.csv", row.names = 1)
 
 # PCA {.tabset}
 
+Batch effects are evident between Day0 and Day5 due to differentiation. I would like to compare the treated samples against the control within their respective batches. However, DESEQ cannot run this type of analysis without biological replicates. Our pipeline combined(collapsed) the biological replicates together to form one sample. I will have to re-run using our pipeline and specify the biological replicates for each treatment within the batches prior to moving onto overlapping DGE analyses. 
+
 ## Original
 ```{r echo=FALSE}
 rv <- rowVars(assay(rld))
