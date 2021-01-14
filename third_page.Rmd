@@ -33,18 +33,17 @@ library(heatmaply)
 library(tidyverse)
 
 setwd("~/testGitHub/Testing")
-load("KDM4D_dds.RData")
-load("KDM4D_rld.RData")
-metaData <- read.csv("metadata.csv", row.names = 1)
-
 ```
 
 # PCA {.tabset}
 
-Batch effects are evident between Day0 and Day5 due to differentiation. I would like to compare the treated samples against the control within their respective batches. However, DESEQ cannot run this type of analysis without biological replicates. Our pipeline combined(collapsed) the biological replicates together to form one sample. I will have to re-run using our pipeline and specify the biological replicates for each treatment within the batches prior to moving onto overlapping DGE analyses. 
+In order to run DESEQ2 for our purposes, I had to treat R1 and R2 as replicates for each sample. 
 
 ## Original
 ```{r echo=FALSE}
+load("KDM4D_dds.RData")
+load("KDM4D_rld.RData")
+metaData <- read.csv("metadata.csv", row.names = 1)
 rv <- rowVars(assay(rld))
 select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
 pc <- prcomp(t(assay(rld)[select,]))
@@ -59,33 +58,69 @@ p <- layout(p,title="", xaxis = list(title = percentage[1]),
 p
 ```
 
-## Batch Effect Shown
+## R1 and R2 treated as replicates **Day 0**
 ```{r echo=FALSE}
+load("Day_0_RLD.RData")
+load("Day_0_metaData.RData")
+
 rv <- rowVars(assay(rld))
 select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
 pc <- prcomp(t(assay(rld)[select,]))
-batch <- metaData$batch
-scores <- data.frame(pc$x, batch)
+condition <- metaData$condition
+scores <- data.frame(pc$x, condition)
 percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
 percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
 
-p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(batch),marker=list(size=11))
+p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
 p <- layout(p,title="", xaxis = list(title = percentage[1]),
                  yaxis = list(title = percentage[2]))
 p
 ```
 
-# Heatmap
-
+## R1 and R2 treated as replicates **Day 5**
 ```{r echo=FALSE}
-sampleDists <- dist(t(assay(rld[select])))
-sampleDistMatrix <- as.matrix(sampleDists)
-rownames(sampleDistMatrix) <- paste(rld$condition, rld$batch, sep="-")
-colnames(sampleDistMatrix) <- paste(rld$condition, rld$batch, sep="-")
-colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
-heatmaply(sampleDistMatrix,
-         clustering_distance_rows=sampleDists,
-         clustering_distance_cols=sampleDists,
-         col=colors)
+load("Day_5_rld.RData")
+load("Day_5_metaData.RData")
 
+rv <- rowVars(assay(rld))
+select <- order(rv, decreasing=T)[seq_len(min(500,length(rv)))]
+pc <- prcomp(t(assay(rld)[select,]))
+condition <- metaData$condition
+scores <- data.frame(pc$x, condition)
+percentage <- round(pc$sdev / sum(pc$sdev) * 100, 2)
+percentage <- paste( colnames(scores), "(", paste( as.character(percentage), "%", ")", sep="") )
+
+p <- plot_ly(scores,x=scores$PC1,y=scores$PC2,text=rownames(scores),mode="markers",color=factor(condition),marker=list(size=11))
+p <- layout(p,title="", xaxis = list(title = percentage[1]),
+                 yaxis = list(title = percentage[2]))
+p
 ```
+
+# Overlapping Genes {.tabset}
+
+Criteria for DGE: 2-fold change in gene expression compared to control and p.adj < 0.05
+
+## Day 0
+<table>
+  <tr>
+    <td align="middle">**Upregulated Genes**</td>
+     <td align="middle">**Downregulated Genes**</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/upregulated_venn_diagramm_Day0.png"></td>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/downregulated_venn_diagramm_Day0.png"></td>
+  </tr>
+ </table>
+ 
+## Day 5
+<table>
+  <tr>
+    <td align="middle">**Upregulated Genes**</td>
+     <td align="middle">**Downregulated Genes**</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/upregulated_venn_diagramm_Day5.png"></td>
+    <td valign="top"><img src="C:/users/Reinnier Padilla/Documents/testGitHub/Testing/downregulated_venn_diagramm_Day5.png"></td>
+  </tr>
+ </table>
+
